@@ -1,0 +1,5 @@
+(executables
+ (names producer router retry recovery)
+ (libraries wren lwt lwt.unix yojson)
+ (preprocess
+  (pps lwt_ppx)))

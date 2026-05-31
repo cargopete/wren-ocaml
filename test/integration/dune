@@ -1,0 +1,8 @@
+; Integration tests against a real broker. Excluded from the default `dune test`
+; (they need RabbitMQ); run explicitly with:
+;   docker compose up -d && dune exec test/integration/integration.exe
+(executable
+ (name integration)
+ (libraries wren lwt lwt.unix yojson)
+ (preprocess
+  (pps lwt_ppx)))

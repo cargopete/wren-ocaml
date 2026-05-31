@@ -1,0 +1,6 @@
+(library
+ (name wren)
+ (public_name wren)
+ (libraries lwt lwt.unix amqp-client-lwt yojson logs)
+ (preprocess
+  (pps lwt_ppx)))
