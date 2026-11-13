@@ -1,0 +1,42 @@
+# yatr - https://github.com/cargopete/yatr
+#
+# Expects an OCaml >= 5.0 opam switch on PATH (`eval $(opam env)`).
+
+[settings]
+cache = true
+
+# Not cached: installs into the opam switch, outside this tree.
+[tasks.deps]
+desc = "Install dependencies into the current opam switch"
+run = ["opam install . --deps-only --with-test --yes"]
+no_cache = true
+
+[tasks.build]
+desc = "Build the library, examples and tests"
+run = ["dune build"]
+sources = ["lib/**", "test/**", "example/**", "dune-project", "wren.opam"]
+
+[tasks.test]
+desc = "Unit suite (dune test; no broker needed)"
+run = ["dune test"]
+sources = ["lib/**", "test/**", "dune-project", "wren.opam"]
+
+[tasks.integration]
+desc = "Integration suite against a broker (yatr broker-up first; honours RABBITMQ_*)"
+run = ["dune exec test/integration/integration.exe"]
+no_cache = true
+
+[tasks.broker-up]
+desc = "Start a local RabbitMQ"
+run = ["docker compose up -d"]
+no_cache = true
+
+[tasks.broker-down]
+desc = "Stop the local RabbitMQ"
+run = ["docker compose down"]
+no_cache = true
+
+[tasks.ci]
+desc = "build, test"
+depends = ["build", "test"]
+run = []
